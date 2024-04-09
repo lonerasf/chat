@@ -1,0 +1,71 @@
+in index.js
+const http=require("http");
+const express=require("express");
+const path=require('path');
+const {Server} = require("socket.io");
+const app = express();
+const server = http.createServer(app);
+const io = newServer(server);
+
+//Socket.io
+io.on('connection',(socket)=>{
+    // console.log("A new user has connected", socket.id);
+    socket.on("user-message",(message) =>{
+        // console.log("A new user message",message);
+        io.emit("message",message);
+    } );
+});
+
+app.use(express.static(path.resolve("./public")));
+app.get('/',(req,res)=> {
+    returnres.sendFile('/public/index.html')
+});
+server.listen(8000, ()=>console.log('server started at 8000'));
+
+
+-	Then create folder as public->create file->index.html:
+
+<!DOCTYPEhtml>
+<htmllang="en">
+<head>
+    <metacharset="UTF-8">
+    <metaname="viewport"content="width=device-width, initial-scale=1.0">
+    <title>Chat_App</title>
+</head>
+<body>
+    <h1> Chatting </h1>
+
+    <inputtype="text"id="message"placeholder="Enter Message"/>
+    <buttonid="sendbtn">Send</button>
+    <divid="messages">
+	    </div>
+    <!--<button onclick="createConnection()";> Create WS Connection</button> -->
+	
+	    <scriptsrc = "/socket.io/socket.io.js"></script>
+	    <script>
+	    // function createConnection(){
+	    //     const socker =io();
+	    // }
+	    constsocket = io();
+	    constsendbtn =document.getElementById("sendbtn");
+	    constmessageInput=document.getElementById("message");
+	    constallmessages= document.getElementById("messages");
+	
+	    socket.on("message",(message)=>{
+	        constp=document.createElement("p");
+	        p.innerText=message;
+	        allmessages.appendChild(p);
+	    })
+	
+	    // socket.on("message",(message) => console.log(message));
+	
+	    sendbtn.addEventListener("click",(e) => {
+	        constmessage = messageInput.value;
+	        console.log(message);
+	        socket.emit("user-message", message);
+	        
+	    } );
+	    </script>
+	</body>
+	</html>
+
